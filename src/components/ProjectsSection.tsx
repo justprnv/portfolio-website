@@ -34,7 +34,7 @@ const ProjectsSection = () => {
         "Ensuring secure data encryption",
         "Maintaining ethical use guidelines"
       ],
-      github: "#"
+      github: "https://github.com/justprnv/Python-Based-Keylogger-and-Detector"
     },
     {
       title: "Keylogger Detector",
@@ -61,7 +61,7 @@ const ProjectsSection = () => {
         "Optimizing system resource usage",
         "Creating accurate threat detection algorithms"
       ],
-      github: "#"
+      github: "https://github.com/justprnv/Python-Based-Keylogger-and-Detector"
     },
     {
       title: "Portfolio Website",
@@ -89,7 +89,7 @@ const ProjectsSection = () => {
         "Implementing smooth animations",
         "Optimizing for mobile devices"
       ],
-      github: "#"
+      github: "https://github.com/justprnv/portfolio-website"
     },
     {
       title: "Student Management Application",
@@ -116,7 +116,7 @@ const ProjectsSection = () => {
         "Creating user-friendly interface",
         "Developing custom installer script"
       ],
-      github: "#"
+      github: "https://github.com/justprnv/student-management"
     },
     {
       title: "Blogging Website",
@@ -144,7 +144,7 @@ const ProjectsSection = () => {
         "Designing scalable database relationships",
         "Creating intuitive user experience"
       ],
-      github: "#"
+      github: "https://github.com/justprnv/Post50"
     }
   ];
 
