@@ -34,7 +34,7 @@ const HeroSection = () => {
           Welcome to my Portfolio
         </h1>
         <p className="text-xl md:text-2xl mb-8 animate-fade-in-delay">
-          I'm <span className="text-blue-400">Pranav Sawant</span>, an aspiring IT professional currently pursuing a Bachelor's degree in Information Technology at the University of Toledo, set to graduate in December 2025.
+          I'm <span className="text-blue-400">Pranav Sawant</span>, an aspiring IT professional currently pursuing a Bachelor's degree in Information Technology at the University of Toledo.
         </p>
         <p className="text-lg md:text-xl mb-12 max-w-3xl mx-auto animate-fade-in-delay-2">
           With a foundation rooted in strong technical knowledge and a passion for continuous growth, I thrive in collaborative environments that value innovation and curiosity. Through academic projects and hands-on learning, I've developed the skills, mindset, and enthusiasm that contribute positively to any team's goals.

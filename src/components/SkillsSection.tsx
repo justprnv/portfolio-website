@@ -2,12 +2,12 @@ import { Code, Award, Lightbulb, Clock, Users, BookOpen } from 'lucide-react';
 
 const SkillsSection = () => {
   const stats = [
-    { icon: Code, number: "200+", label: "Projects Completed" },
-    { icon: Award, number: "10", label: "Awards Received" },
+    { icon: Code, number: "150+", label: "Projects Completed" },
+    { icon: Award, number: "7+", label: "Certifications Obtained" },
     { icon: Lightbulb, number: "100+", label: "Crazy Ideas" },
     { icon: Clock, number: "1000+", label: "Hours Coding" },
-    { icon: Users, number: "930+", label: "Network" },
-    { icon: BookOpen, number: "1000+", label: "Books Read" }
+    { icon: Users, number: "2000+", label: "Network" },
+    { icon: BookOpen, number: "100+", label: "Books Read" }
   ];
 
   const skills = [

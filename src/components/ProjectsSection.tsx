@@ -218,10 +218,18 @@ const ProjectsSection = () => {
                 </div>
                 
                 <div className="flex gap-3">
-                  <button className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-lg transition-colors text-sm hover-aura">
-                    <Github size={14} />
-                    View Code
-                  </button>
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-lg transition-colors text-sm hover-aura"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Github size={14} />
+                      View Code
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
