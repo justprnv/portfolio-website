@@ -15,7 +15,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  base: isGitHubPages && repositoryName ? `/${repositoryName}/` : '/',
+  base: '/',
   build: {
     target: 'esnext',
     outDir: 'build',
