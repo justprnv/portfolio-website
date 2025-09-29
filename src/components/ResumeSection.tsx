@@ -3,6 +3,13 @@ import { Calendar, Building } from 'lucide-react';
 const ResumeSection = () => {
   const workExperience = [
     {
+      title: "TechDev / Mentor",
+      company: "RocketHacks",
+      duration: "Nov 2024 - Present · 9 mos",
+      description: "Leadership, team building, and mentoring aspiring developers.",
+      type: "work"
+    },
+    {
       title: "Safety Education Instructor",
       company: "The University of Toledo",
       duration: "Feb 2025 - Present · 6 mos",
@@ -14,13 +21,6 @@ const ResumeSection = () => {
       company: "The University of Toledo",
       duration: "Apr 2024 - Present · 1 yr 4 mos",
       description: "Customer service, first aid, and emergency response skills applied daily.",
-      type: "work"
-    },
-    {
-      title: "TechDev / Mentor",
-      company: "RocketHacks",
-      duration: "Nov 2024 - Present · 9 mos",
-      description: "Leadership, team building, and mentoring aspiring developers.",
       type: "work"
     },
     {
