@@ -23,7 +23,7 @@ const AboutSection = () => {
           <div className="order-1 lg:order-2">
             <div className="relative hover-aura">
               <ImageWithFallback
-                src="/src/img/pranav_pfp.JPEG"
+                src="/src/img/pranav_pfp.jpg"
                 alt="Pranav Sawant"
                 className="rounded-lg shadow-2xl w-full"
               />
