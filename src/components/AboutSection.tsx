@@ -27,7 +27,6 @@ const AboutSection = () => {
                 alt="Pranav Sawant"
                 className="rounded-lg shadow-2xl w-full"
               />
-              <div className="absolute inset-0 bg-blue-600/20 rounded-lg"></div>
             </div>
           </div>
         </div>
