@@ -23,8 +23,8 @@ const AboutSection = () => {
           <div className="order-1 lg:order-2">
             <div className="relative hover-aura">
               <ImageWithFallback
-                src="https://images.unsplash.com/photo-1569693799105-4eb645d89aea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2RpbmclMjBwcm9ncmFtbWluZyUyMGxhcHRvcHxlbnwxfHx8fDE3NTUyNzIzNTJ8MA&ixlib=rb-4.1.0&q=80&w=1080"
-                alt="Programming workspace"
+                src="/src/img/pranav_pfp.JPEG"
+                alt="Pranav Sawant"
                 className="rounded-lg shadow-2xl w-full"
               />
               <div className="absolute inset-0 bg-blue-600/20 rounded-lg"></div>

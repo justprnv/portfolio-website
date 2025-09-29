@@ -2,14 +2,14 @@ import { Mail, Linkedin, Github, Twitter } from 'lucide-react';
 
 const ContactSection = () => {
   const contactInfo = [
-    { icon: Mail, label: "Email", value: "pranav.sawant@rockets.utoledo.edu", href: "mailto:pranav.sawant@rockets.utoledo.edu" }
+    { icon: Mail, label: "Email", value: "pranavsawant57@gmail.com", href: "mailto:pranavsawant57@gmail.com" }
   ];
 
   const socialLinks = [
-    { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/pranavsawant" },
-    { icon: Github, label: "GitHub", href: "https://github.com/pranavsawant" },
-    { icon: Twitter, label: "Twitter", href: "https://twitter.com/pranavsawant" },
-    { icon: Mail, label: "Email", href: "mailto:pranav.sawant@rockets.utoledo.edu" }
+    { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/justprnv/" },
+    { icon: Github, label: "GitHub", href: "https://github.com/justprnv" },
+    { icon: Twitter, label: "Twitter", href: "https://x.com/justprnv" },
+    { icon: Mail, label: "Email", href: "mailto:pranavsawant57@gmail.com" }
   ];
 
   return (
