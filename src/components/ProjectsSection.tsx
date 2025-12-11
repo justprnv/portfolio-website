@@ -10,7 +10,7 @@ const ProjectsSection = () => {
   const projects = [
     {
       title: "RecipeMe – AI-Powered Recipe Generation App",
-      description: "An intelligent mobile app built with Flutter that generates personalized recipes using AI. Users can take a photo of their fridge or manually enter ingredients, and RecipeMe analyzes the items using OpenAI's Vision and GPT models to create 3–5 tailored recipe options.",
+      description: "An AI-powered Flutter mobile app that generates personalized recipes from fridge photos or manual ingredient entry using OpenAI's Vision and GPT models.",
       longDescription: "RecipeMe is an intelligent mobile app built with Flutter that generates personalized recipes using AI. Users can take a photo of their fridge or manually enter ingredients, and RecipeMe analyzes the items using OpenAI's Vision and GPT models to create 3–5 tailored recipe options. The app adapts suggestions to each user's cooking skill level, favorite cuisines, allergies, and available equipment. This project highlights skills in Flutter development, AI integration, backend engineering with Supabase, and end-to-end app architecture.",
       image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWNpcGUlMjBhcHB8ZW58MXx8fHwxNzU1MzA5OTE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
       screenshots: [
@@ -38,7 +38,7 @@ const ProjectsSection = () => {
         "Coordinating image upload → AI analysis → recipe generation flow",
         "Managing multi-step onboarding and personalized user profiles"
       ],
-      github: "https://github.com/justprnv/recipeme"
+      github: "https://github.com/ahmedamrou1/RecipeMe"
     },
     {
       title: "Python-Based Keylogger",
