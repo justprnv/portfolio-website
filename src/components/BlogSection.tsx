@@ -11,11 +11,17 @@ const BlogSection = () => {
             <p className="text-muted-foreground leading-relaxed">
               I'm currently working on creating valuable content for developers and tech enthusiasts. 
               Stay tuned for articles about software development, IT insights, and my learning journey.
+              For now, you can check out my posts on LinkedIn!
             </p>
             <div className="mt-8">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors">
-                Subscribe for Updates
-              </button>
+              <a 
+                href="https://www.linkedin.com/in/justprnv/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors"
+              >
+                View My LinkedIn Profile
+              </a>
             </div>
           </div>
         </div>
