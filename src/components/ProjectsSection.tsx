@@ -9,6 +9,38 @@ const ProjectsSection = () => {
 
   const projects = [
     {
+      title: "RecipeMe – AI-Powered Recipe Generation App",
+      description: "An intelligent mobile app built with Flutter that generates personalized recipes using AI. Users can take a photo of their fridge or manually enter ingredients, and RecipeMe analyzes the items using OpenAI's Vision and GPT models to create 3–5 tailored recipe options.",
+      longDescription: "RecipeMe is an intelligent mobile app built with Flutter that generates personalized recipes using AI. Users can take a photo of their fridge or manually enter ingredients, and RecipeMe analyzes the items using OpenAI's Vision and GPT models to create 3–5 tailored recipe options. The app adapts suggestions to each user's cooking skill level, favorite cuisines, allergies, and available equipment. This project highlights skills in Flutter development, AI integration, backend engineering with Supabase, and end-to-end app architecture.",
+      image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWNpcGUlMjBhcHB8ZW58MXx8fHwxNzU1MzA5OTE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      screenshots: [
+        "https://images.unsplash.com/photo-1556910103-1c02745aae4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWNpcGUlMjBhcHB8ZW58MXx8fHwxNzU1MzA5OTE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmb29kJTIwcmVjaXBlfGVufDF8fHx8MTc1NTMwOTkxN3ww&ixlib=rb-4.1.0&q=80&w=1080"
+      ],
+      technologies: ["Flutter", "Supabase (Auth, PostgreSQL DB, Storage)", "OpenAI Vision + GPT-4o-mini", "Dart", "Google Sign-In", "Image Picker / REST APIs"],
+      category: "Mobile Development",
+      status: "completed" as const,
+      duration: "4 months",
+      teamSize: 5,
+      features: [
+        "AI-powered ingredient detection from fridge/pantry photos",
+        "Manual ingredient entry with flexible quantity parsing",
+        "Personalized recipe generation based on user profile",
+        "Saved recipe history with full details",
+        "Google Sign-In + email authentication",
+        "Offline support for viewing stored recipes",
+        "Modern, polished UI with smooth navigation"
+      ],
+      challenges: [
+        "Building robust ingredient extraction from mixed-quality images",
+        "Prompt engineering for consistent recipe output",
+        "Implementing secure Supabase RLS rules for user data",
+        "Coordinating image upload → AI analysis → recipe generation flow",
+        "Managing multi-step onboarding and personalized user profiles"
+      ],
+      github: "https://github.com/justprnv/recipeme"
+    },
+    {
       title: "Python-Based Keylogger",
       description: "A security testing tool developed using Python for authorized environments with encryption and stealth capabilities.",
       longDescription: "This sophisticated security testing tool was developed using Python to log keystrokes in authorized testing environments. The application implements advanced encryption techniques to secure captured data and features a stealth mode for realistic simulation of security threats. This project demonstrates expertise in cybersecurity, Python programming, and ethical hacking practices.",
@@ -145,37 +177,6 @@ const ProjectsSection = () => {
         "Creating intuitive user experience"
       ],
       github: "https://github.com/justprnv/Post50"
-    },
-    {
-      title: "RecipeMe – AI-Powered Recipe Generation App",
-      description: "An intelligent mobile app built with Flutter that generates personalized recipes using AI. Users can take a photo of their fridge or manually enter ingredients, and RecipeMe analyzes the items using OpenAI's Vision and GPT models to create 3–5 tailored recipe options.",
-      longDescription: "RecipeMe is an intelligent mobile app built with Flutter that generates personalized recipes using AI. Users can take a photo of their fridge or manually enter ingredients, and RecipeMe analyzes the items using OpenAI's Vision and GPT models to create 3–5 tailored recipe options. The app adapts suggestions to each user's cooking skill level, favorite cuisines, allergies, and available equipment. This project highlights skills in Flutter development, AI integration, backend engineering with Supabase, and end-to-end app architecture.",
-      image: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWNpcGUlMjBhcHB8ZW58MXx8fHwxNzU1MzA5OTE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      screenshots: [
-        "https://images.unsplash.com/photo-1556910103-1c02745aae4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWNpcGUlMjBhcHB8ZW58MXx8fHwxNzU1MzA5OTE3fDA&ixlib=rb-4.1.0&q=80&w=1080",
-        "https://images.unsplash.com/photo-1504674900247-0877df9cc836?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmb29kJTIwcmVjaXBlfGVufDF8fHx8MTc1NTMwOTkxN3ww&ixlib=rb-4.1.0&q=80&w=1080"
-      ],
-      technologies: ["Flutter", "Supabase (Auth, PostgreSQL DB, Storage)", "OpenAI Vision + GPT-4o-mini", "Dart", "Google Sign-In", "Image Picker / REST APIs"],
-      category: "Mobile Development",
-      status: "completed" as const,
-      duration: "4 months",
-      teamSize: 5,
-      features: [
-        "AI-powered ingredient detection from fridge/pantry photos",
-        "Manual ingredient entry with flexible quantity parsing",
-        "Personalized recipe generation based on user profile",
-        "Saved recipe history with full details",
-        "Google Sign-In + email authentication",
-        "Offline support for viewing stored recipes",
-        "Modern, polished UI with smooth navigation"
-      ],
-      challenges: [
-        "Building robust ingredient extraction from mixed-quality images",
-        "Prompt engineering for consistent recipe output",
-        "Implementing secure Supabase RLS rules for user data",
-        "Coordinating image upload → AI analysis → recipe generation flow",
-        "Managing multi-step onboarding and personalized user profiles"
-      ]
     }
   ];
 
