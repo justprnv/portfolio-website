@@ -97,17 +97,67 @@ const SkillsSection = () => {
                 </div>
                 
                 {/* Progress Bar */}
-                <div className="mb-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-foreground">Progress</span>
-                    <span className="text-sm font-semibold text-blue-600">{cert.progress}%</span>
+                <div className="mb-4 group/progress">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm font-medium text-foreground">Learning Progress</span>
+                    <span className="text-base font-bold text-blue-600 group-hover/progress:scale-110 transition-transform duration-300">{cert.progress}%</span>
                   </div>
-                  <div className="w-full bg-secondary rounded-full h-3 overflow-hidden">
+                  {/* Progress Bar Container - Using inline styles to guarantee visibility */}
+                  <div 
+                    className="relative w-full rounded-full overflow-hidden cursor-pointer transition-all duration-300 group-hover/progress:shadow-lg"
+                    style={{
+                      height: '24px',
+                      backgroundColor: '#e5e7eb',
+                      border: '2px solid #d1d5db'
+                    }}
+                  >
+                    {/* Progress Fill - Blue color that fills based on percentage */}
                     <div 
-                      className="bg-gradient-to-r from-blue-600 to-blue-500 h-3 rounded-full transition-all duration-500 ease-out"
-                      style={{ width: `${cert.progress}%` }}
-                    ></div>
+                      className="relative h-full rounded-full transition-all duration-1000 ease-out group-hover/progress:scale-y-110"
+                      style={{ 
+                        width: `${cert.progress}%`,
+                        height: '100%',
+                        backgroundColor: '#3b82f6',
+                        minWidth: cert.progress > 0 ? '4px' : '0',
+                        display: 'block'
+                      }}
+                    >
+                      {/* Animated shine effect */}
+                      <div 
+                        className="absolute inset-0 animate-shimmer"
+                        style={{
+                          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)'
+                        }}
+                      ></div>
+                      {/* Progress indicator dot */}
+                      {cert.progress > 0 && (
+                        <div 
+                          className="absolute transition-all duration-300 group-hover/progress:scale-150"
+                          style={{ 
+                            top: '50%',
+                            right: '4px',
+                            transform: 'translateY(-50%)',
+                            width: '12px',
+                            height: '12px',
+                            backgroundColor: 'white',
+                            borderRadius: '50%',
+                            border: '2px solid #60a5fa',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+                          }}
+                        ></div>
+                      )}
+                    </div>
+                    {/* Hover tooltip */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/progress:opacity-100 transition-opacity duration-300 pointer-events-none">
+                      <span className="text-xs font-bold text-white drop-shadow-lg bg-black/70 px-2 py-1 rounded">{cert.progress}% Complete</span>
+                    </div>
                   </div>
+                  {/* Progress percentage inside bar for completed ones */}
+                  {cert.progress === 100 && (
+                    <div className="mt-2 text-xs text-green-600 dark:text-green-400 font-medium flex items-center gap-1">
+                      <span>✓ Completed</span>
+                    </div>
+                  )}
                 </div>
                 
                 {/* View Button */}
