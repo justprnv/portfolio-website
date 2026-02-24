@@ -61,8 +61,9 @@ const BlogSection = () => {
         </div>
 
         <div
-          className="rounded-3xl p-6 md:p-8 overflow-hidden"
+          className="p-6 md:p-8 overflow-hidden"
           style={{
+            borderRadius: "24px",
             background: "rgba(255, 255, 255, 0.06)",
             backdropFilter: "blur(24px)",
             WebkitBackdropFilter: "blur(24px)",
@@ -96,8 +97,9 @@ const BlogSection = () => {
                     <article
                       key={post.id}
                       onClick={() => setModalPost(post)}
-                      className="min-w-[280px] max-w-[320px] snap-center flex-shrink-0 overflow-hidden rounded-2xl border border-white/10 shadow-xl transition-transform hover:scale-[1.02] cursor-pointer"
+                      className="min-w-[280px] max-w-[320px] snap-center flex-shrink-0 overflow-hidden border border-white/10 shadow-xl transition-transform hover:scale-[1.02] cursor-pointer"
                       style={{
+                        borderRadius: "16px",
                         background: "rgba(255, 255, 255, 0.08)",
                         backdropFilter: "blur(16px)",
                         WebkitBackdropFilter: "blur(16px)",
@@ -108,10 +110,14 @@ const BlogSection = () => {
                         <img
                           src={post.imageUrl}
                           alt={post.title}
-                          className="w-full h-44 object-cover rounded-t-2xl"
+                          className="w-full h-44 object-cover"
+                          style={{ borderTopLeftRadius: "16px", borderTopRightRadius: "16px" }}
                         />
                       ) : (
-                        <div className="w-full h-44 rounded-t-2xl bg-gradient-to-br from-blue-600/40 via-purple-600/30 to-pink-500/30 flex items-center justify-center text-5xl opacity-80">
+                        <div
+                          className="w-full h-44 bg-gradient-to-br from-blue-600/40 via-purple-600/30 to-pink-500/30 flex items-center justify-center text-5xl opacity-80"
+                          style={{ borderTopLeftRadius: "16px", borderTopRightRadius: "16px" }}
+                        >
                           📝
                         </div>
                       )}
@@ -149,21 +155,23 @@ const BlogSection = () => {
           onClick={() => setModalPost(null)}
         >
           <div
-            className="bg-card border border-border rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+            className="bg-card border border-border shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+            style={{ borderRadius: "24px" }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between p-4 border-b border-border">
-              <h3 className="text-xl font-semibold text-foreground pr-8">{modalPost.title}</h3>
+            <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+              <h3 className="text-xl font-semibold text-foreground pr-4 truncate flex-1 min-w-0">{modalPost.title}</h3>
               <button
                 type="button"
                 onClick={() => setModalPost(null)}
-                className="p-2 rounded-lg hover:bg-muted text-foreground"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white text-gray-900 font-medium hover:bg-gray-100 transition-colors flex-shrink-0"
                 aria-label="Close"
               >
-                <X size={22} />
+                <X size={18} />
+                Close
               </button>
             </div>
-            <div className="overflow-y-auto p-6 space-y-4">
+            <div className="overflow-y-auto flex-1 min-h-0 p-6 space-y-4">
               <p className="text-sm text-muted-foreground">
                 {new Date(modalPost.createdAt).toLocaleDateString()}
               </p>
@@ -171,7 +179,8 @@ const BlogSection = () => {
                 <img
                   src={modalPost.imageUrl}
                   alt={modalPost.title}
-                  className="w-full rounded-xl object-cover max-h-64"
+                  className="w-full object-cover max-h-64"
+                  style={{ borderRadius: "12px" }}
                 />
               )}
               <div className="prose prose-invert prose-sm max-w-none text-foreground [&_a]:text-blue-400 [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ol]:list-decimal">

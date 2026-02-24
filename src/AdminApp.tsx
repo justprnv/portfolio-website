@@ -522,16 +522,16 @@ const AdminApp = () => {
               ) : (
                 <div className="divide-y divide-border max-h-[500px] overflow-y-auto">
                   {posts.map((post) => (
-                    <div key={post.id} className="px-4 sm:px-6 py-4 hover:bg-muted/30 transition-colors flex items-start gap-3">
+                    <div key={post.id} className="px-4 sm:px-6 py-3 hover:bg-muted/30 transition-colors flex items-center gap-3">
                       {post.imageUrl ? (
-                        <img src={post.imageUrl} alt="" className="w-14 h-14 rounded-lg object-cover flex-shrink-0" />
+                        <img src={post.imageUrl} alt="" className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
                       ) : (
-                        <div className="w-14 h-14 rounded-lg bg-blue-600/20 flex items-center justify-center text-2xl flex-shrink-0">📝</div>
+                        <div className="w-10 h-10 rounded-lg bg-blue-600/20 flex items-center justify-center text-lg flex-shrink-0">📝</div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-sm font-semibold text-foreground line-clamp-2">{post.title}</h3>
-                        <p className="text-xs text-muted-foreground mt-1">{new Date(post.createdAt).toLocaleDateString()}</p>
-                        <p className="text-sm text-muted-foreground line-clamp-2 mt-1">{post.content.replace(/#{1,6}\s|\*\*?|__?/g, "").slice(0, 80)}…</p>
+                        <h3 className="text-sm font-semibold text-foreground line-clamp-1">{post.title}</h3>
+                        <p className="text-xs text-muted-foreground mt-0.5">{new Date(post.createdAt).toLocaleDateString()}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-3 mt-1">{post.content.replace(/#{1,6}\s|\*\*?|__?/g, "").trim().slice(0, 120)}{(post.content.replace(/#{1,6}\s|\*\*?|__?/g, "").trim().length > 120 ? "…" : "")}</p>
                       </div>
                       <button
                         type="button"
@@ -553,18 +553,18 @@ const AdminApp = () => {
 
       {showPreview && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={() => setShowPreview(false)}>
-          <div className="bg-card border border-border rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-card border border-border shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col" style={{ borderRadius: "24px" }} onClick={(e) => e.stopPropagation()}>
             <div className="p-4 border-b border-border flex items-center justify-between">
               <h3 className="text-lg font-semibold text-foreground">Portfolio preview</h3>
               <button type="button" onClick={() => setShowPreview(false)} className="p-2 rounded-lg hover:bg-muted text-foreground">×</button>
             </div>
             <div className="p-6 overflow-y-auto space-y-6">
               <p className="text-sm text-muted-foreground">How your post will appear on the blog section:</p>
-              <article className="min-w-0 max-w-[320px] overflow-hidden rounded-2xl border border-border bg-muted/30">
+              <article className="min-w-0 max-w-[320px] overflow-hidden border border-border bg-muted/30" style={{ borderRadius: "16px" }}>
                 {newPostImageUrl ? (
-                  <img src={newPostImageUrl} alt="" className="w-full h-44 object-cover rounded-t-2xl" />
+                  <img src={newPostImageUrl} alt="" className="w-full h-44 object-cover" style={{ borderTopLeftRadius: "16px", borderTopRightRadius: "16px" }} />
                 ) : (
-                  <div className="w-full h-44 rounded-t-2xl bg-gradient-to-br from-blue-600/40 to-purple-600/30 flex items-center justify-center text-4xl">📝</div>
+                  <div className="w-full h-44 bg-gradient-to-br from-blue-600/40 to-purple-600/30 flex items-center justify-center text-4xl" style={{ borderTopLeftRadius: "16px", borderTopRightRadius: "16px" }}>📝</div>
                 )}
                 <div className="p-4">
                   <h4 className="font-semibold text-foreground line-clamp-2">{newPostTitle || "Post title"}</h4>
