@@ -26,7 +26,7 @@ interface BlogPost {
 
 const CREDENTIALS_KEY = "ps_admin_credentials_v1";
 const LOCK_KEY = "ps_admin_lock_until";
-const POSTS_URL = "https://blog-api-worker.pranav-7d5.workers.dev/posts";
+const POSTS_URL = "https://pranavsawant.com/api/posts";
 
 async function hashPassword(password: string, salt: string): Promise<string> {
   const data = new TextEncoder().encode(password + salt);

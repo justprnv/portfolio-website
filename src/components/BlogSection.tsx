@@ -8,7 +8,7 @@ interface BlogPost {
   createdAt: string;
 }
 
-const POSTS_URL = "https://blog-api-worker.pranav-7d5.workers.dev/posts";
+const POSTS_URL = "https://pranavsawant.com/api/posts";
 
 const BlogSection = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
