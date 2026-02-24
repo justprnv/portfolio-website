@@ -155,36 +155,66 @@ const BlogSection = () => {
           onClick={() => setModalPost(null)}
         >
           <div
-            className="bg-card border border-border shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
-            style={{ borderRadius: "24px" }}
+            className="w-full max-w-4xl max-h-[90vh] overflow-y-auto flex flex-col"
+            style={{
+              borderRadius: "24px",
+              background: "rgba(15, 23, 42, 0.9)", // frosted glass look
+              backdropFilter: "blur(24px)",
+              WebkitBackdropFilter: "blur(24px)",
+              border: "1px solid rgba(148, 163, 184, 0.35)",
+              boxShadow: "0 18px 60px rgba(0, 0, 0, 0.7)",
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-              <h3 className="text-xl font-semibold text-foreground pr-4 truncate flex-1 min-w-0">{modalPost.title}</h3>
+              <h3 className="text-lg sm:text-xl font-semibold text-foreground pr-4 truncate flex-1 min-w-0">
+                {modalPost.title}
+              </h3>
               <button
                 type="button"
                 onClick={() => setModalPost(null)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white text-gray-900 font-medium hover:bg-gray-100 transition-colors flex-shrink-0"
-                aria-label="Close"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white text-slate-900 text-sm font-semibold shadow-md hover:bg-gray-100 border border-white/70 transition-colors flex-shrink-0"
               >
-                <X size={18} />
                 Close
+                <X size={16} />
               </button>
             </div>
-            <div className="overflow-y-auto flex-1 min-h-0 p-6 space-y-4">
-              <p className="text-sm text-muted-foreground">
-                {new Date(modalPost.createdAt).toLocaleDateString()}
-              </p>
-              {modalPost.imageUrl && (
-                <img
-                  src={modalPost.imageUrl}
-                  alt={modalPost.title}
-                  className="w-full object-cover max-h-64"
-                  style={{ borderRadius: "12px" }}
-                />
-              )}
-              <div className="prose prose-invert prose-sm max-w-none text-foreground [&_a]:text-blue-400 [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ol]:list-decimal">
-                <ReactMarkdown rehypePlugins={[rehypeRaw]}>{modalPost.content}</ReactMarkdown>
+            <div className="p-4 sm:p-6">
+              <div className="grid gap-4 sm:gap-6 md:grid-cols-3">
+                <div className="space-y-3 md:col-span-1 flex flex-col">
+                  {modalPost.imageUrl && (
+                    <div
+                      className="relative w-full overflow-hidden"
+                      style={{ borderRadius: "18px", aspectRatio: "3 / 2" }}
+                    >
+                      <img
+                        src={modalPost.imageUrl}
+                        alt={modalPost.title}
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                    </div>
+                  )}
+                  {!modalPost.imageUrl && (
+                    <div
+                      className="flex h-full min-h-[160px] items-center justify-center text-5xl text-white/80"
+                      style={{
+                        borderRadius: "18px",
+                        background:
+                          "linear-gradient(135deg, rgba(37, 99, 235, 0.5), rgba(168, 85, 247, 0.5))",
+                      }}
+                    >
+                      📝
+                    </div>
+                  )}
+                  <p className="text-xs sm:text-sm text-muted-foreground">
+                    {new Date(modalPost.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="md:col-span-2 pr-1">
+                  <div className="prose prose-invert prose-sm max-w-none text-foreground [&_a]:text-blue-400 [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ol]:list-decimal">
+                    <ReactMarkdown rehypePlugins={[rehypeRaw]}>{modalPost.content}</ReactMarkdown>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
