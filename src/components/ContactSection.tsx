@@ -3,7 +3,8 @@ import type { FormEvent } from 'react';
 
 const ContactSection = () => {
   const contactInfo = [
-    { icon: Mail, label: "Email", value: "contact@pranavsawant.com", href: "mailto:contact@pranavsawant.com" }
+    { icon: Mail, label: "Email", value: "contact@pranavsawant.com", href: "mailto:contact@pranavsawant.com" },
+    { icon: Mail, label: "Email", value: "pranavsawant57@gmail.com", href: "mailto:pranavsawant57@gmail.com" },
   ];
 
   const socialLinks = [
