@@ -1,0 +1,25 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+ {
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "blog-api-worker",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-02-24",
+	"observability": {
+	  "enabled": true
+	},
+	"compatibility_flags": [
+	  "nodejs_compat"
+	],
+  
+	// 🔗 D1 binding so `env.DB` works in your Worker
+	"d1_databases": [
+	  {
+		"binding": "DB",
+		"database_name": "pranav_blog_db",
+		"database_id": "bfdbdf10-571e-4b05-888d-7f6a4da572ec"
+	  }
+	]
+  }

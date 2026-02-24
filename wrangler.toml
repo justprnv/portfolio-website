@@ -1,0 +1,7 @@
+name = "portfolio-website"
+compatibility_date = "2024-12-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pranav_blog_db"
+database_id = "bfdbdf10-571e-4b05-888d-7f6a4da572ec"

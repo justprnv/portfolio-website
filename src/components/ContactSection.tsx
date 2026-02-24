@@ -1,16 +1,48 @@
 import { Mail, Linkedin, Github, Twitter } from 'lucide-react';
+import type { FormEvent } from 'react';
 
 const ContactSection = () => {
   const contactInfo = [
-    { icon: Mail, label: "Email", value: "pranavsawant57@gmail.com", href: "mailto:pranavsawant57@gmail.com" }
+    { icon: Mail, label: "Email", value: "contact@pranavsawant.com", href: "mailto:contact@pranavsawant.com" }
   ];
 
   const socialLinks = [
     { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/justprnv/" },
     { icon: Github, label: "GitHub", href: "https://github.com/justprnv" },
     { icon: Twitter, label: "Twitter", href: "https://x.com/justprnv" },
-    { icon: Mail, label: "Email", href: "mailto:pranavsawant57@gmail.com" }
+    { icon: Mail, label: "Email", href: "mailto:contact@pranavsawant.com" }
   ];
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    const firstName = (formData.get('firstName') as string) || '';
+    const lastName = (formData.get('lastName') as string) || '';
+    const fromEmail = (formData.get('email') as string) || '';
+    const subject = (formData.get('subject') as string) || '';
+    const message = (formData.get('message') as string) || '';
+
+    const fullName = `${firstName} ${lastName}`.trim();
+
+    const emailSubject = subject || `New message from ${fullName || 'portfolio contact form'}`;
+
+    const emailBodyLines = [
+      fullName ? `From: ${fullName}` : '',
+      fromEmail ? `Email: ${fromEmail}` : '',
+      '',
+      'Message:',
+      message || ''
+    ].filter(Boolean);
+
+    const mailtoLink = `mailto:contact@pranavsawant.com?subject=${encodeURIComponent(
+      emailSubject,
+    )}&body=${encodeURIComponent(emailBodyLines.join('\n'))}`;
+
+    window.location.href = mailtoLink;
+  };
 
   return (
     <section id="contact" className="py-20 bg-secondary">
@@ -75,13 +107,14 @@ const ContactSection = () => {
           {/* Contact Form */}
           <div>
             <h3 className="text-2xl mb-8 text-center lg:text-left">Send a Message</h3>
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="firstName" className="block text-sm mb-2">First Name</label>
                   <input
                     type="text"
                     id="firstName"
+                    name="firstName"
                     className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-blue-600 focus:outline-none transition-colors hover-aura"
                     placeholder="John"
                   />
@@ -91,6 +124,7 @@ const ContactSection = () => {
                   <input
                     type="text"
                     id="lastName"
+                    name="lastName"
                     className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-blue-600 focus:outline-none transition-colors hover-aura"
                     placeholder="Doe"
                   />
@@ -102,6 +136,7 @@ const ContactSection = () => {
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-blue-600 focus:outline-none transition-colors hover-aura"
                   placeholder="john@example.com"
                 />
@@ -112,6 +147,7 @@ const ContactSection = () => {
                 <input
                   type="text"
                   id="subject"
+                  name="subject"
                   className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-blue-600 focus:outline-none transition-colors hover-aura"
                   placeholder="Project Collaboration"
                 />
@@ -122,23 +158,18 @@ const ContactSection = () => {
                 <textarea
                   id="message"
                   rows={6}
+                  name="message"
                   className="w-full px-4 py-3 bg-background border border-border rounded-lg focus:border-blue-600 focus:outline-none resize-none transition-colors hover-aura"
                   placeholder="Tell me about your project or idea..."
                 ></textarea>
               </div>
               
-              <div className="relative group">
-                <button
-                  type="submit"
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition-colors hover-aura flex items-center justify-center"
-                >
-                  Send Message
-                </button>
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
-                  Contact button coming soon! In the meantime, email me at pranavsawant57@gmail.com
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
-                </div>
-              </div>
+              <button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition-colors hover-aura flex items-center justify-center"
+              >
+                Send Message
+              </button>
             </form>
           </div>
         </div>

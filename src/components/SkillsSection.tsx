@@ -30,6 +30,12 @@ const SkillsSection = () => {
       authority: "Google",
       link: "https://www.coursera.org/account/accomplishments/professional-cert/Z8688JJC4SLL",
       progress: 100
+    },
+    {
+      title: "CompTIA Network+",
+      authority: "CompTIA",
+      link: "https://www.comptia.org/certifications/network",
+      progress: 67
     }
   ];
 
