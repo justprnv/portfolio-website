@@ -22,15 +22,34 @@ export interface Env {
 		});
 	  }
   
-	  // Preflight for POST (CORS)
+	  // Preflight (CORS)
 	  if (request.method === "OPTIONS") {
 		return new Response(null, {
 		  headers: {
 			"Access-Control-Allow-Origin": "*",
-			"Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+			"Access-Control-Allow-Methods": "GET,POST,DELETE,OPTIONS",
 			"Access-Control-Allow-Headers": "Content-Type, CF-Access-Authenticated-User-Email",
 		  },
 		});
+	  }
+
+	  // Protected: DELETE /posts/:id
+	  const deleteMatch = path.match(/^\/posts\/([a-f0-9-]+)$/i);
+	  if (request.method === "DELETE" && deleteMatch) {
+		const allowOpen = env.ALLOW_OPEN_POST === "true";
+		const email = request.headers.get("CF-Access-Authenticated-User-Email");
+		const isAuthorized = allowOpen || (email && email.toLowerCase() === "contact@pranavsawant.com");
+		if (!isAuthorized) {
+		  return new Response("Unauthorized", { status: 401 });
+		}
+		const id = deleteMatch[1];
+		const { meta } = await env.DB.prepare("DELETE FROM posts WHERE id = ?").bind(id).run();
+		return new Response(
+		  JSON.stringify({ deleted: (meta.changes ?? 0) > 0 }),
+		  {
+			headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+		  }
+		);
 	  }
   
 	  // Protected: POST /posts -> create a new post

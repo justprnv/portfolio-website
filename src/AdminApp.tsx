@@ -1,6 +1,8 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { LogOut, Key } from "lucide-react";
+import { useEffect, useState, useRef, type FormEvent } from "react";
+import { LogOut, Key, Trash2, Eye, Bold, Italic, Underline, List, Link as LinkIcon, Heading2, Heading3 } from "lucide-react";
 import DarkModeToggle from "./components/DarkModeToggle";
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 
 interface AdminCredentials {
   username: string;
@@ -52,7 +54,11 @@ const AdminApp = () => {
   const [newPostTitle, setNewPostTitle] = useState("");
   const [newPostImageUrl, setNewPostImageUrl] = useState("");
   const [newPostContent, setNewPostContent] = useState("");
+  const [postFont, setPostFont] = useState<"sans" | "serif" | "mono">("sans");
   const [postMessage, setPostMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const contentRef = useRef<HTMLTextAreaElement>(null);
 
   const fetchPosts = async () => {
     try {
@@ -224,6 +230,36 @@ const AdminApp = () => {
     }
   };
 
+  const handleDeletePost = async (id: string) => {
+    if (!confirm("Delete this post? This cannot be undone.")) return;
+    setDeletingId(id);
+    try {
+      const res = await fetch(`${POSTS_URL}/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error(await res.text());
+      setPosts((prev) => prev.filter((p) => p.id !== id));
+    } catch {
+      setPostMessage({ type: "error", text: "Failed to delete post." });
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const insertAtCursor = (before: string, after: string = "") => {
+    const ta = contentRef.current;
+    if (!ta) return;
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    const text = newPostContent;
+    const newText = text.slice(0, start) + before + (text.slice(start, end) || "text") + after + text.slice(end);
+    setNewPostContent(newText);
+    setTimeout(() => {
+      ta.focus();
+      ta.setSelectionRange(start + before.length, start + before.length + (end - start || 4));
+    }, 0);
+  };
+
+  const fontClass = postFont === "serif" ? "font-serif" : postFont === "mono" ? "font-mono" : "font-sans";
+
   if (!isInitialized) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -238,8 +274,8 @@ const AdminApp = () => {
         <div className="absolute top-4 right-4">
           <DarkModeToggle />
         </div>
-        <div className="w-full max-w-md">
-          <div className="bg-card rounded-lg shadow-md p-6 sm:p-8 border border-border">
+        <div className="w-full max-w-md sm:max-w-sm">
+          <div className="bg-card rounded-xl shadow-md p-6 sm:p-8 border border-border">
             <h2 className="text-2xl sm:text-3xl mb-2 text-center text-foreground">Blog Admin</h2>
             <p className="text-sm text-muted-foreground text-center mb-6">Sign in to manage your blog</p>
             <form className="space-y-5" onSubmit={handleLogin}>
@@ -363,7 +399,7 @@ const AdminApp = () => {
                 <button
                   type="submit"
                   form="create-post-form"
-                  className="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm transition-colors min-h-[44px]"
+                  className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-base transition-colors min-h-[48px] shadow-lg hover:shadow-xl"
                 >
                   Add Post
                 </button>
@@ -381,25 +417,87 @@ const AdminApp = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="postImage" className="block text-sm font-medium text-foreground mb-2">Image URL <span className="text-muted-foreground">(optional)</span></label>
+                  <label className="block text-sm font-medium text-foreground mb-2">Image <span className="text-muted-foreground">(optional)</span></label>
                   <input
-                    id="postImage"
                     type="url"
                     value={newPostImageUrl}
                     onChange={(e) => setNewPostImageUrl(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg bg-background border border-border text-foreground placeholder-muted-foreground focus:border-blue-600 focus:outline-none"
-                    placeholder="https://example.com/image.jpg"
+                    className="w-full px-4 py-2 rounded-lg bg-background border border-border text-foreground text-sm mb-2"
+                    placeholder="Paste image URL or upload below"
                   />
+                  <div
+                    className="border-2 border-dashed border-border rounded-xl p-6 text-center bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer"
+                    onDragOver={(e) => { e.preventDefault(); e.currentTarget.classList.add("border-blue-500"); }}
+                    onDragLeave={(e) => { e.currentTarget.classList.remove("border-blue-500"); }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      e.currentTarget.classList.remove("border-blue-500");
+                      const file = e.dataTransfer.files[0];
+                      if (file && file.type.startsWith("image/")) {
+                        const r = new FileReader();
+                        r.onload = () => setNewPostImageUrl(String(r.result));
+                        r.readAsDataURL(file);
+                      }
+                    }}
+                    onClick={() => document.getElementById("postImageFile")?.click()}
+                  >
+                    <input
+                      id="postImageFile"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const r = new FileReader();
+                          r.onload = () => setNewPostImageUrl(String(r.result));
+                          r.readAsDataURL(file);
+                        }
+                        e.target.value = "";
+                      }}
+                    />
+                    {newPostImageUrl ? (
+                      <div className="flex flex-col items-center gap-2">
+                        <img src={newPostImageUrl} alt="Preview" className="max-h-32 rounded-lg object-cover" />
+                        <button type="button" onClick={(e) => { e.stopPropagation(); setNewPostImageUrl(""); }} className="text-sm text-red-500 hover:underline">Remove image</button>
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">Drop image here or click to choose from PC</p>
+                    )}
+                  </div>
                 </div>
                 <div>
-                  <label htmlFor="postContent" className="block text-sm font-medium text-foreground mb-2">Content</label>
+                  <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+                    <label htmlFor="postContent" className="block text-sm font-medium text-foreground">Content</label>
+                    <div className="flex items-center gap-1 flex-wrap">
+                      <span className="text-xs text-muted-foreground mr-1">Font:</span>
+                      <select
+                        value={postFont}
+                        onChange={(e) => setPostFont(e.target.value as "sans" | "serif" | "mono")}
+                        className="text-sm rounded-lg border border-border bg-background text-foreground px-2 py-1"
+                      >
+                        <option value="sans">Sans</option>
+                        <option value="serif">Serif</option>
+                        <option value="mono">Mono</option>
+                      </select>
+                      <button type="button" onClick={() => insertAtCursor("**", "**")} className="p-1.5 rounded hover:bg-muted" title="Bold"><Bold size={16} /></button>
+                      <button type="button" onClick={() => insertAtCursor("_", "_")} className="p-1.5 rounded hover:bg-muted" title="Italic"><Italic size={16} /></button>
+                      <button type="button" onClick={() => insertAtCursor("<u>", "</u>")} className="p-1.5 rounded hover:bg-muted" title="Underline"><Underline size={16} /></button>
+                      <button type="button" onClick={() => insertAtCursor("## ", "")} className="p-1.5 rounded hover:bg-muted" title="Heading 2"><Heading2 size={16} /></button>
+                      <button type="button" onClick={() => insertAtCursor("### ", "")} className="p-1.5 rounded hover:bg-muted" title="Heading 3"><Heading3 size={16} /></button>
+                      <button type="button" onClick={() => insertAtCursor("\n- ", "")} className="p-1.5 rounded hover:bg-muted" title="Bullet list"><List size={16} /></button>
+                      <button type="button" onClick={() => insertAtCursor("[", "](url)")} className="p-1.5 rounded hover:bg-muted" title="Link"><LinkIcon size={16} /></button>
+                      <button type="button" onClick={() => setShowPreview(true)} className="p-1.5 rounded bg-blue-600/20 text-blue-600 hover:bg-blue-600/30 flex items-center gap-1 text-sm" title="Preview on portfolio"><Eye size={16} /> Preview</button>
+                    </div>
+                  </div>
                   <textarea
+                    ref={contentRef}
                     id="postContent"
                     value={newPostContent}
                     onChange={(e) => setNewPostContent(e.target.value)}
                     rows={10}
-                    className="w-full px-4 py-3 rounded-lg bg-background border border-border text-foreground placeholder-muted-foreground focus:border-blue-600 focus:outline-none resize-y min-h-[120px]"
-                    placeholder="Write your blog content..."
+                    className={`w-full px-4 py-3 rounded-xl bg-background border border-border text-foreground placeholder-muted-foreground focus:border-blue-600 focus:outline-none resize-y min-h-[120px] ${fontClass}`}
+                    placeholder="Write your blog content... Use the toolbar for **bold**, _italic_, ## headings, - lists."
                   />
                 </div>
                 {postMessage && (
@@ -424,19 +522,26 @@ const AdminApp = () => {
               ) : (
                 <div className="divide-y divide-border max-h-[500px] overflow-y-auto">
                   {posts.map((post) => (
-                    <div key={post.id} className="px-4 sm:px-6 py-4 hover:bg-muted/30 transition-colors">
-                      <div className="flex gap-3">
-                        {post.imageUrl ? (
-                          <img src={post.imageUrl} alt="" className="w-14 h-14 rounded-lg object-cover flex-shrink-0" />
-                        ) : (
-                          <div className="w-14 h-14 rounded-lg bg-blue-600/20 flex items-center justify-center text-2xl flex-shrink-0">📝</div>
-                        )}
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-sm font-semibold text-foreground line-clamp-2">{post.title}</h3>
-                          <p className="text-xs text-muted-foreground mt-1">{new Date(post.createdAt).toLocaleDateString()}</p>
-                          <p className="text-sm text-muted-foreground line-clamp-2 mt-1">{post.content}</p>
-                        </div>
+                    <div key={post.id} className="px-4 sm:px-6 py-4 hover:bg-muted/30 transition-colors flex items-start gap-3">
+                      {post.imageUrl ? (
+                        <img src={post.imageUrl} alt="" className="w-14 h-14 rounded-lg object-cover flex-shrink-0" />
+                      ) : (
+                        <div className="w-14 h-14 rounded-lg bg-blue-600/20 flex items-center justify-center text-2xl flex-shrink-0">📝</div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-semibold text-foreground line-clamp-2">{post.title}</h3>
+                        <p className="text-xs text-muted-foreground mt-1">{new Date(post.createdAt).toLocaleDateString()}</p>
+                        <p className="text-sm text-muted-foreground line-clamp-2 mt-1">{post.content.replace(/#{1,6}\s|\*\*?|__?/g, "").slice(0, 80)}…</p>
                       </div>
+                      <button
+                        type="button"
+                        onClick={() => handleDeletePost(post.id)}
+                        disabled={deletingId === post.id}
+                        className="p-2 rounded-lg text-red-500 hover:bg-red-500/20 transition-colors flex-shrink-0"
+                        title="Delete post"
+                      >
+                        <Trash2 size={18} />
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -445,6 +550,39 @@ const AdminApp = () => {
           </div>
         </div>
       </main>
+
+      {showPreview && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={() => setShowPreview(false)}>
+          <div className="bg-card border border-border rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
+            <div className="p-4 border-b border-border flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-foreground">Portfolio preview</h3>
+              <button type="button" onClick={() => setShowPreview(false)} className="p-2 rounded-lg hover:bg-muted text-foreground">×</button>
+            </div>
+            <div className="p-6 overflow-y-auto space-y-6">
+              <p className="text-sm text-muted-foreground">How your post will appear on the blog section:</p>
+              <article className="min-w-0 max-w-[320px] overflow-hidden rounded-2xl border border-border bg-muted/30">
+                {newPostImageUrl ? (
+                  <img src={newPostImageUrl} alt="" className="w-full h-44 object-cover rounded-t-2xl" />
+                ) : (
+                  <div className="w-full h-44 rounded-t-2xl bg-gradient-to-br from-blue-600/40 to-purple-600/30 flex items-center justify-center text-4xl">📝</div>
+                )}
+                <div className="p-4">
+                  <h4 className="font-semibold text-foreground line-clamp-2">{newPostTitle || "Post title"}</h4>
+                  <p className="text-sm text-muted-foreground line-clamp-4 mt-2">
+                    {newPostContent ? newPostContent.replace(/#{1,6}\s|\*\*?|__?/g, "").trim().slice(0, 220) + "…" : "Content preview…"}
+                  </p>
+                </div>
+              </article>
+              <div>
+                <p className="text-sm font-medium text-foreground mb-2">Full content (as in modal):</p>
+                <div className={`prose prose-invert prose-sm max-w-none text-foreground ${fontClass} [&_a]:text-blue-400 [&_strong]:font-semibold [&_em]:italic`}>
+                  <ReactMarkdown rehypePlugins={[rehypeRaw]}>{newPostContent || "*No content yet*"}</ReactMarkdown>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
