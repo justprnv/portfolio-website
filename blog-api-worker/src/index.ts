@@ -1,5 +1,6 @@
 export interface Env {
 	DB: D1Database;
+	ALLOW_OPEN_POST?: string;
   }
   
   export default {
@@ -32,31 +33,33 @@ export interface Env {
 		});
 	  }
   
-	  // Protected: POST /posts -> create a new post (only allowed behind Cloudflare Access)
+	  // Protected: POST /posts -> create a new post
 	  if (request.method === "POST" && path === "/posts") {
-		// Optional extra check: only allow your email from Cloudflare Access
+		// Require Cloudflare Access email, OR allow if ALLOW_OPEN_POST is "true" (for dev before Access is set up)
+		const allowOpen = env.ALLOW_OPEN_POST === "true";
 		const email = request.headers.get("CF-Access-Authenticated-User-Email");
-		if (!email || email.toLowerCase() !== "contact@pranavsawant.com") {
-		  return new Response("Unauthorized", { status: 401 });
+		const isAuthorized = allowOpen || (email && email.toLowerCase() === "contact@pranavsawant.com");
+		if (!isAuthorized) {
+		  return new Response("Unauthorized. Set up Cloudflare Access for the API, or use ALLOW_OPEN_POST for dev.", { status: 401 });
 		}
   
-		const body = await request.json().catch(() => null);
-		if (!body || !body.title || !body.content) {
+		const raw = await request.json().catch(() => null) as { title?: string; content?: string; imageUrl?: string } | null;
+		if (!raw || !raw.title || !raw.content) {
 		  return new Response("Invalid payload", { status: 400 });
 		}
-  
+
 		const id = crypto.randomUUID();
 		const createdAt = new Date().toISOString();
-		const imageUrl = body.imageUrl ?? null;
-  
+		const imageUrl = raw.imageUrl ?? null;
+
 		await env.DB.prepare(
 		  "INSERT INTO posts (id, title, image_url, content, created_at) VALUES (?, ?, ?, ?, ?)"
 		)
-		  .bind(id, body.title, imageUrl, body.content, createdAt)
+		  .bind(id, raw.title, imageUrl, raw.content, createdAt)
 		  .run();
-  
+
 		return new Response(
-		  JSON.stringify({ id, title: body.title, imageUrl, content: body.content, createdAt }),
+		  JSON.stringify({ id, title: raw.title, imageUrl, content: raw.content, createdAt }),
 		  {
 			status: 201,
 			headers: {

@@ -15,7 +15,10 @@
 	],
   
 	// 🔗 D1 binding so `env.DB` works in your Worker
-	"d1_databases": [
+  "vars": {
+    "ALLOW_OPEN_POST": "true"
+  },
+  "d1_databases": [
 	  {
 		"binding": "DB",
 		"database_name": "pranav_blog_db",
