@@ -29,7 +29,7 @@ const SkillsSection = () => {
       title: "Google Cybersecurity Professional",
       authority: "Google",
       link: "https://www.coursera.org/account/accomplishments/professional-cert/Z8688JJC4SLL",
-      progress: 47
+      progress: 100
     }
   ];
 
