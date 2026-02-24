@@ -41,6 +41,17 @@ const BlogSection = () => {
     fetchPosts();
   }, []);
 
+  // Lock page scroll while modal is open so only the post scrolls
+  useEffect(() => {
+    if (modalPost) {
+      const original = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = original;
+      };
+    }
+  }, [modalPost]);
+
   const scrollCarousel = (direction: "left" | "right") => {
     const el = carouselRef.current;
     if (!el) return;
@@ -151,13 +162,31 @@ const BlogSection = () => {
 
       {modalPost && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center px-4 py-6 bg-black/70 backdrop-blur-sm"
           onClick={() => setModalPost(null)}
         >
+          {/* Close button row – its own line above the modal card */}
+          <div className="w-full max-w-3xl flex justify-end mb-3">
+            <button
+              type="button"
+              onClick={() => setModalPost(null)}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-full text-white text-sm font-semibold shadow-lg"
+              style={{
+                background: "rgba(15, 23, 42, 0.9)",
+                border: "1px solid rgba(255, 255, 255, 0.35)",
+                backdropFilter: "blur(18px)",
+                WebkitBackdropFilter: "blur(18px)",
+              }}
+            >
+              Close
+              <X size={16} />
+            </button>
+          </div>
+
+          {/* Frosted modal card – it is the scrollable area while open */}
           <div
-            className="relative w-full overflow-hidden"
+            className="modal-scroll w-full max-w-3xl overflow-y-auto"
             style={{
-              width: "min(92vw, 980px)",
               maxHeight: "min(86vh, 740px)",
               borderRadius: "24px",
               background: "rgba(15, 23, 42, 0.72)",
@@ -168,75 +197,57 @@ const BlogSection = () => {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close button stays fixed while content scrolls */}
-            <button
-              type="button"
-              onClick={() => setModalPost(null)}
-              className="absolute top-3 right-3 z-20 flex items-center gap-1.5 px-3 py-2 rounded-full text-white text-sm font-semibold shadow-lg"
-              style={{
-                background: "rgba(255, 255, 255, 0.16)",
-                border: "1px solid rgba(255, 255, 255, 0.28)",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-              }}
-            >
-              Close <X size={16} />
-            </button>
+            <div className="p-5 sm:p-6 border-b border-white/10">
+              <h3 className="text-xl sm:text-2xl font-semibold text-white">
+                {modalPost.title}
+              </h3>
+              <p className="mt-2 text-xs sm:text-sm text-white/70">
+                {new Date(modalPost.createdAt).toLocaleDateString()}
+              </p>
+            </div>
 
-            {/* Scroll happens inside the modal card */}
-            <div className="modal-scroll h-full overflow-y-auto">
-              <div className="p-5 sm:p-6 border-b border-white/10">
-                <h3 className="text-xl sm:text-2xl font-semibold text-white pr-20">
-                  {modalPost.title}
-                </h3>
-                <p className="mt-2 text-xs sm:text-sm text-white/70">
-                  {new Date(modalPost.createdAt).toLocaleDateString()}
-                </p>
-              </div>
-
-              <div className="p-5 sm:p-6 space-y-5">
-                {modalPost.imageUrl ? (
-                  <div
-                    className="relative w-full overflow-hidden"
-                    style={{
-                      borderRadius: "18px",
-                      aspectRatio: "3 / 2",
-                      background: "rgba(255, 255, 255, 0.06)",
-                      border: "1px solid rgba(255, 255, 255, 0.10)",
-                    }}
-                  >
-                    <img
-                      src={modalPost.imageUrl}
-                      alt={modalPost.title}
-                      className="absolute inset-0 h-full w-full object-cover"
-                    />
-                  </div>
-                ) : (
-                  <div
-                    className="flex w-full items-center justify-center text-5xl text-white/80"
-                    style={{
-                      borderRadius: "18px",
-                      aspectRatio: "3 / 2",
-                      background:
-                        "linear-gradient(135deg, rgba(37, 99, 235, 0.45), rgba(168, 85, 247, 0.45))",
-                      border: "1px solid rgba(255, 255, 255, 0.10)",
-                    }}
-                  >
-                    📝
-                  </div>
-                )}
-
+            <div className="p-5 sm:p-6 space-y-5">
+              {modalPost.imageUrl ? (
                 <div
-                  className="prose prose-invert prose-sm sm:prose-base max-w-none text-white/90 [&_a]:text-blue-300 [&_strong]:text-white [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ol]:list-decimal"
+                  className="relative w-full overflow-hidden"
                   style={{
+                    borderRadius: "18px",
+                    aspectRatio: "3 / 2",
                     background: "rgba(255, 255, 255, 0.06)",
                     border: "1px solid rgba(255, 255, 255, 0.10)",
-                    borderRadius: "18px",
-                    padding: "18px",
                   }}
                 >
-                  <ReactMarkdown rehypePlugins={[rehypeRaw]}>{modalPost.content}</ReactMarkdown>
+                  <img
+                    src={modalPost.imageUrl}
+                    alt={modalPost.title}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
                 </div>
+              ) : (
+                <div
+                  className="flex w-full items-center justify-center text-5xl text-white/80"
+                  style={{
+                    borderRadius: "18px",
+                    aspectRatio: "3 / 2",
+                    background:
+                      "linear-gradient(135deg, rgba(37, 99, 235, 0.45), rgba(168, 85, 247, 0.45))",
+                    border: "1px solid rgba(255, 255, 255, 0.10)",
+                  }}
+                >
+                  📝
+                </div>
+              )}
+
+              <div
+                className="prose prose-invert prose-sm sm:prose-base max-w-none text-white/90 [&_a]:text-blue-300 [&_strong]:text-white [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ol]:list-decimal"
+                style={{
+                  background: "rgba(255, 255, 255, 0.06)",
+                  border: "1px solid rgba(255, 255, 255, 0.10)",
+                  borderRadius: "18px",
+                  padding: "18px",
+                }}
+              >
+                <ReactMarkdown rehypePlugins={[rehypeRaw]}>{modalPost.content}</ReactMarkdown>
               </div>
             </div>
           </div>
