@@ -1,14 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
-import {
-  Lock,
-  ShieldCheck,
-  LogOut,
-  Plus,
-  ImageIcon,
-  FileText,
-  User,
-  Key,
-} from "lucide-react";
+import { LogOut, ImageIcon, Key } from "lucide-react";
 
 interface AdminCredentials {
   username: string;
@@ -225,279 +216,208 @@ const AdminApp = () => {
 
   if (!isInitialized) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
-        <div className="text-center">
-          <p className="text-slate-400">Loading admin panel…</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a]">
+        <p className="text-white/50">Loading…</p>
       </div>
     );
   }
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 px-4">
-        <div className="w-full max-w-md bg-slate-800/60 border border-white/10 rounded-2xl shadow-2xl p-8 backdrop-blur-xl">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/30">
-              <Lock className="text-white" size={24} />
-            </div>
-            <div>
-              <h1 className="text-2xl font-semibold text-slate-100">Admin Login</h1>
-              <p className="text-sm text-slate-400">
-                Secure access to your blog dashboard
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a] px-4">
+        <div className="w-full max-w-[400px]">
+          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-8">
+            <h1 className="text-2xl font-semibold text-center mb-8" style={{ fontFamily: "Georgia, serif" }}>
+              Blog Admin
+            </h1>
+            <form className="space-y-4" onSubmit={handleLogin}>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                defaultValue="justprnv"
+                className="w-full px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/[0.08] text-white placeholder-white/40 focus:outline-none focus:border-white/20 text-sm"
+                placeholder="Username"
+                autoComplete="username"
+              />
+              <input
+                id="password"
+                name="password"
+                type="password"
+                className="w-full px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/[0.08] text-white placeholder-white/40 focus:outline-none focus:border-white/20 text-sm"
+                placeholder="Password"
+                autoComplete="current-password"
+              />
+              <p className="text-[11px] text-white/40 text-center">
+                Default: Pranav@123
               </p>
-            </div>
+              {loginError && (
+                <p className="text-sm text-red-400 text-center">{loginError}</p>
+              )}
+              <button
+                type="submit"
+                className="w-full py-2.5 rounded-lg bg-[#0095f6] hover:bg-[#0095f6]/90 text-white font-semibold text-sm transition-colors"
+              >
+                Log in
+              </button>
+            </form>
           </div>
-
-            <form className="space-y-5" onSubmit={handleLogin}>
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2" htmlFor="username">
-                Username
-              </label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  defaultValue="justprnv"
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-slate-100 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 focus:outline-none transition-all"
-                  autoComplete="username"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2" htmlFor="password">
-                Password
-              </label>
-              <div className="relative">
-                <Key className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-slate-100 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 focus:outline-none transition-all"
-                  autoComplete="current-password"
-                />
-              </div>
-              <p className="mt-2 text-xs text-slate-500">
-                Default: <span className="font-mono text-slate-400">Pranav@123</span> — change after first login.
-              </p>
-            </div>
-
-            {loginError && (
-              <p className="text-sm text-red-400 bg-red-500/10 px-3 py-2 rounded-lg">{loginError}</p>
-            )}
-
-            <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white py-3 rounded-xl font-medium transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-600/30"
-            >
-              <ShieldCheck size={18} />
-              <span>Sign In</span>
-            </button>
-          </form>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-foreground">
-      <header className="sticky top-0 z-10 border-b border-white/10 bg-slate-900/90 backdrop-blur-xl">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/30">
-              <ShieldCheck className="text-white" size={20} />
-            </div>
-            <div>
-              <h1 className="text-xl font-semibold tracking-tight">Blog Admin</h1>
-              <p className="text-xs text-slate-400">
-                Logged in as <span className="font-mono text-slate-300">justprnv</span>
-              </p>
-            </div>
-          </div>
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
+      {/* Instagram-style top bar */}
+      <header className="sticky top-0 z-20 border-b border-white/[0.08] bg-[#0a0a0a]/95 backdrop-blur-xl">
+        <div className="max-w-[630px] mx-auto px-4 h-14 flex items-center justify-between">
+          <h1 className="text-xl font-semibold tracking-tight" style={{ fontFamily: "Georgia, serif" }}>
+            Blog Admin
+          </h1>
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setIsChangingPassword((prev) => !prev)}
-              className="px-4 py-2 rounded-lg border border-white/20 text-sm text-slate-300 hover:bg-white/10 hover:border-white/30 transition-all flex items-center gap-2"
+              className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-colors"
+              title="Change Password"
             >
-              <Key size={14} />
-              <span>Change Password</span>
+              <Key size={18} />
             </button>
             <button
               type="button"
               onClick={handleLogout}
-              className="px-4 py-2 rounded-lg bg-red-600/90 hover:bg-red-600 text-white text-sm flex items-center gap-2 transition-colors"
+              className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-colors"
+              title="Log Out"
             >
-              <LogOut size={14} />
-              <span>Log Out</span>
+              <LogOut size={18} />
             </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-10">
+      <main className="max-w-[630px] mx-auto px-4 py-6 space-y-6">
         {isChangingPassword && (
-          <section className="bg-slate-800/60 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-sm">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2 text-slate-100">
-              <Key size={18} className="text-blue-400" />
-              <span>Update Admin Password</span>
-            </h2>
+          <section className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-6">
+            <h2 className="text-base font-medium mb-4 text-white/90">Update Password</h2>
             <form className="space-y-4 max-w-xl" onSubmit={handleChangePassword}>
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2" htmlFor="oldPassword">
-                  Current Password
-                </label>
-                <input
-                  id="oldPassword"
-                  name="oldPassword"
-                  type="password"
-                  className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-slate-100 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 focus:outline-none transition-all"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2" htmlFor="newPassword">
-                  New Password
-                </label>
-                <input
-                  id="newPassword"
-                  name="newPassword"
-                  type="password"
-                  className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-slate-100 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 focus:outline-none transition-all"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2" htmlFor="confirmPassword">
-                  Confirm New Password
-                </label>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-slate-100 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 focus:outline-none transition-all"
-                />
-              </div>
+              <input
+                id="oldPassword"
+                name="oldPassword"
+                type="password"
+                placeholder="Current password"
+                className="w-full px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/[0.08] text-white placeholder-white/40 focus:outline-none focus:border-white/20 text-sm"
+              />
+              <input
+                id="newPassword"
+                name="newPassword"
+                type="password"
+                placeholder="New password"
+                className="w-full px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/[0.08] text-white placeholder-white/40 focus:outline-none focus:border-white/20 text-sm"
+              />
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                placeholder="Confirm new password"
+                className="w-full px-3 py-2.5 rounded-lg bg-white/[0.06] border border-white/[0.08] text-white placeholder-white/40 focus:outline-none focus:border-white/20 text-sm"
+              />
               {passwordChangeMessage && (
                 <p className={`text-sm ${passwordChangeMessage.includes("success") ? "text-emerald-400" : "text-red-400"}`}>{passwordChangeMessage}</p>
               )}
               <button
                 type="submit"
-                className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium flex items-center gap-2 transition-colors"
+                className="px-4 py-2 rounded-lg bg-[#0095f6] hover:bg-[#0095f6]/90 text-white text-sm font-semibold"
               >
-                <ShieldCheck size={16} />
-                <span>Save New Password</span>
+                Save
               </button>
             </form>
           </section>
         )}
 
-        <section className="grid grid-cols-1 lg:grid-cols-[1.2fr,1fr] gap-8">
-          <div className="bg-slate-800/50 border border-white/10 rounded-2xl p-6 md:p-8 shadow-xl backdrop-blur-sm">
-            <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-slate-100">
-              <div className="w-8 h-8 rounded-lg bg-blue-600/80 flex items-center justify-center">
-                <Plus size={16} className="text-white" />
-              </div>
-              <span>Create New Blog Post</span>
-            </h2>
-            <form className="space-y-5" onSubmit={handleCreatePost}>
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2" htmlFor="postTitle">
-                  Title
-                </label>
+        <section className="space-y-6">
+          {/* Create post card - Instagram-style */}
+          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] overflow-hidden">
+            <div className="px-4 py-3 border-b border-white/[0.06] flex items-center justify-between">
+              <span className="text-sm font-medium text-white/90">Create post</span>
+              <button
+                type="submit"
+                form="create-post-form"
+                className="text-sm font-semibold text-[#0095f6] hover:text-[#0095f6]/80 transition-colors"
+              >
+                Post
+              </button>
+            </div>
+            <form id="create-post-form" className="p-4 space-y-4" onSubmit={handleCreatePost}>
+              <input
+                id="postTitle"
+                type="text"
+                value={newPostTitle}
+                onChange={(e) => setNewPostTitle(e.target.value)}
+                className="w-full px-0 py-2 bg-transparent text-white placeholder-white/40 focus:outline-none text-base"
+                placeholder="Title"
+              />
+              <div className="flex items-center gap-3 py-2">
+                <ImageIcon size={20} className="text-white/50 flex-shrink-0" />
                 <input
-                  id="postTitle"
-                  type="text"
-                  value={newPostTitle}
-                  onChange={(e) => setNewPostTitle(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 focus:outline-none transition-all"
-                  placeholder="Your blog title"
+                  id="postImage"
+                  type="url"
+                  value={newPostImageUrl}
+                  onChange={(e) => setNewPostImageUrl(e.target.value)}
+                  className="flex-1 bg-transparent text-white/90 placeholder-white/40 focus:outline-none text-sm"
+                  placeholder="Image URL (optional)"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2" htmlFor="postImage">
-                  Image URL <span className="text-slate-500">(optional)</span>
-                </label>
-                <div className="flex items-center gap-2">
-                  <ImageIcon size={16} className="text-slate-500 flex-shrink-0" />
-                  <input
-                    id="postImage"
-                    type="url"
-                    value={newPostImageUrl}
-                    onChange={(e) => setNewPostImageUrl(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 focus:outline-none transition-all"
-                    placeholder="https://example.com/image.jpg"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2" htmlFor="postContent">
-                  Content
-                </label>
-                <div className="flex items-start gap-2">
-                  <FileText size={16} className="mt-3 text-slate-500 flex-shrink-0" />
-                  <textarea
-                    id="postContent"
-                    value={newPostContent}
-                    onChange={(e) => setNewPostContent(e.target.value)}
-                    rows={12}
-                    className="w-full px-4 py-3 rounded-xl bg-slate-900/80 border border-white/10 text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500/50 focus:outline-none transition-all resize-y font-mono text-sm leading-relaxed"
-                    placeholder="Write your blog content here. You can use emojis, paragraphs, markdown-style formatting, etc."
-                  />
-                </div>
-              </div>
+              <textarea
+                id="postContent"
+                value={newPostContent}
+                onChange={(e) => setNewPostContent(e.target.value)}
+                rows={8}
+                className="w-full px-0 py-2 bg-transparent text-white/90 placeholder-white/40 focus:outline-none resize-none text-[15px] leading-relaxed"
+                placeholder="What's on your mind?"
+              />
               {postMessage && (
                 <div
-                  className={`px-4 py-3 rounded-lg text-sm ${
+                  className={`px-3 py-2 rounded-lg text-sm ${
                     postMessage.type === "success"
-                      ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/40"
-                      : "bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/40"
+                      ? "bg-emerald-500/20 text-emerald-400"
+                      : "bg-red-500/20 text-red-400"
                   }`}
                 >
                   {postMessage.text}
                 </div>
               )}
-              <button
-                type="submit"
-                className="w-full px-4 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-medium flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-600/30 hover:shadow-blue-500/40"
-              >
-                <Plus size={18} />
-                <span>Add Post</span>
-              </button>
             </form>
           </div>
 
-          <div className="bg-slate-800/50 border border-white/10 rounded-2xl p-6 md:p-8 shadow-xl backdrop-blur-sm">
-            <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-slate-100">
-              <div className="w-8 h-8 rounded-lg bg-slate-600/80 flex items-center justify-center">
-                <FileText size={16} className="text-white" />
-              </div>
-              <span>Existing Posts</span>
-            </h2>
+          {/* Existing posts - feed style */}
+          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] overflow-hidden">
+            <div className="px-4 py-3 border-b border-white/[0.06]">
+              <span className="text-sm font-medium text-white/90">Your posts</span>
+            </div>
             {posts.length === 0 ? (
-              <div className="text-center py-12 rounded-xl bg-slate-900/40 border border-dashed border-white/10">
-                <p className="text-sm text-slate-400">
-                  No posts yet. Create your first post with the form.
-                </p>
+              <div className="px-4 py-16 text-center">
+                <p className="text-sm text-white/40">No posts yet</p>
+                <p className="text-xs text-white/30 mt-1">Create your first post above</p>
               </div>
             ) : (
-              <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin">
+              <div className="divide-y divide-white/[0.06]">
                 {posts.map((post) => (
-                  <div
-                    key={post.id}
-                    className="p-4 rounded-xl border border-white/10 bg-slate-900/50 hover:bg-slate-900/70 transition-colors"
-                  >
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <h3 className="text-sm font-semibold text-slate-100 line-clamp-2">{post.title}</h3>
-                      <span className="text-[11px] text-slate-500 flex-shrink-0">
-                        {new Date(post.createdAt).toLocaleDateString()}
-                      </span>
+                  <div key={post.id} className="px-4 py-4 hover:bg-white/[0.02] transition-colors">
+                    <div className="flex items-start gap-3">
+                      {post.imageUrl ? (
+                        <img src={post.imageUrl} alt="" className="w-12 h-12 rounded-lg object-cover flex-shrink-0" />
+                      ) : (
+                        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#833ab4] via-[#fd1d1d] to-[#fcb045] flex-shrink-0 flex items-center justify-center text-white/80 text-lg">
+                          📝
+                        </div>
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-medium text-white/90 line-clamp-1">{post.title}</h3>
+                        <p className="text-xs text-white/50 mt-0.5">{new Date(post.createdAt).toLocaleDateString()}</p>
+                        <p className="text-sm text-white/60 line-clamp-2 mt-1">{post.content}</p>
+                      </div>
                     </div>
-                    <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
-                      {post.content}
-                    </p>
                   </div>
                 ))}
               </div>
