@@ -558,7 +558,7 @@ const AdminApp = () => {
               <h3 className="text-lg font-semibold text-foreground">Portfolio preview</h3>
               <button type="button" onClick={() => setShowPreview(false)} className="p-2 rounded-lg hover:bg-muted text-foreground">×</button>
             </div>
-            <div className="p-6 overflow-y-auto space-y-6">
+            <div className="p-6 overflow-y-auto no-scrollbar space-y-6">
               <p className="text-sm text-muted-foreground">How your post will appear on the blog section:</p>
               <article className="min-w-0 max-w-[320px] overflow-hidden border border-border bg-muted/30" style={{ borderRadius: "16px" }}>
                 {newPostImageUrl ? (

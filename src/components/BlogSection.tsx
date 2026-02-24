@@ -155,7 +155,7 @@ const BlogSection = () => {
           onClick={() => setModalPost(null)}
         >
           <div
-            className="w-full max-w-4xl max-h-[90vh] overflow-y-auto flex flex-col"
+            className="w-full max-w-4xl h-[78vh] max-h-[78vh] overflow-hidden flex flex-col"
             style={{
               borderRadius: "24px",
               background: "rgba(15, 23, 42, 0.9)", // frosted glass look
@@ -179,7 +179,7 @@ const BlogSection = () => {
                 <X size={16} />
               </button>
             </div>
-            <div className="p-4 sm:p-6">
+            <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar p-4 sm:p-6">
               <div className="grid gap-4 sm:gap-6 md:grid-cols-3">
                 <div className="space-y-3 md:col-span-1 flex flex-col">
                   {modalPost.imageUrl && (
@@ -210,7 +210,7 @@ const BlogSection = () => {
                     {new Date(modalPost.createdAt).toLocaleDateString()}
                   </p>
                 </div>
-                <div className="md:col-span-2 pr-1">
+                <div className="md:col-span-2">
                   <div className="prose prose-invert prose-sm max-w-none text-foreground [&_a]:text-blue-400 [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ol]:list-decimal">
                     <ReactMarkdown rehypePlugins={[rehypeRaw]}>{modalPost.content}</ReactMarkdown>
                   </div>
