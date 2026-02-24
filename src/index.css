@@ -5797,12 +5797,3 @@ input:checked + .toggle-slider:before {
     opacity: 0;
   }
 }
-
-/* Hide scrollbars but keep scroll behavior */
-.no-scrollbar {
-  -ms-overflow-style: none; /* IE/Edge */
-  scrollbar-width: none; /* Firefox */
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
-}
